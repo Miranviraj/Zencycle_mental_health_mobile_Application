@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/habbit.dart';
+import '../widgets/habbit.dart'; // Assumes you have HabitTile defined here
 
 class HabitScreen extends StatefulWidget {
   @override
@@ -36,40 +36,48 @@ class _HabitScreenState extends State<HabitScreen> {
             'id': doc.id,
             'title': doc['title'],
             'done': doc['done'],
+            'date': doc['date'] ?? Timestamp.now(),
           };
         }).toList();
         isLoading = false;
       });
     } else {
-      // default if no data in Firestore yet
-      habits = [
-        {'title': 'Drink Water 💧', 'done': false},
-        {'title': 'Meditate 🧘‍♂️', 'done': false},
-        {'title': 'Read for 15 mins 📚', 'done': false},
-        {'title': 'Go for a Walk 🚶‍♂️', 'done': false},
+      // If no habits found, create some default ones
+      final defaultHabits = [
+        'Drink Water 💧',
+        'Meditate 🧘‍♂️',
+        'Read 15 mins 📚',
+        'Go for a Walk 🚶‍♂️',
       ];
-      // Save them to Firestore
-      for (var habit in habits) {
-        var doc = await _firestore
+
+      for (var name in defaultHabits) {
+        final docRef = await _firestore
             .collection('users')
             .doc(uid)
             .collection('habits')
             .add({
-          'title': habit['title'],
-          'done': habit['done'],
+          'title': name,
+          'done': false,
+          'date': Timestamp.now(),
         });
-        habit['id'] = doc.id;
+        habits.add({
+          'id': docRef.id,
+          'title': name,
+          'done': false,
+          'date': Timestamp.now(),
+        });
       }
-      setState(() {
-        isLoading = false;
-      });
+
+      setState(() => isLoading = false);
     }
   }
 
-  void toggleHabit(int index) async {
+  Future<void> toggleHabit(int index) async {
     final uid = _auth.currentUser!.uid;
+    final updated = !habits[index]['done'];
+
     setState(() {
-      habits[index]['done'] = !habits[index]['done'];
+      habits[index]['done'] = updated;
     });
 
     await _firestore
@@ -77,26 +85,43 @@ class _HabitScreenState extends State<HabitScreen> {
         .doc(uid)
         .collection('habits')
         .doc(habits[index]['id'])
-        .update({'done': habits[index]['done']});
+        .update({'done': updated});
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Daily Habit Tracker")),
+      appBar: AppBar(title: const Text("Daily Habit Tracker")),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: habits.length,
-        itemBuilder: (context, index) {
-          return HabitTile(
-            title: habits[index]['title'],
-            isCompleted: habits[index]['done'],
-            onChanged: () => toggleHabit(index),
-          );
-        },
+          ? const Center(child: CircularProgressIndicator())
+          : Stack(
+        children: [
+          // 🔹 Background Image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/galaxy.jpg"),  
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // 🔹 Habit List on top
+          ListView.builder(
+            padding: const EdgeInsets.all(20),
+            itemCount: habits.length,
+            itemBuilder: (context, index) {
+              return HabitTile(
+                title: habits[index]['title'],
+                isCompleted: habits[index]['done'],
+                onChanged: () => toggleHabit(index),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 }
+

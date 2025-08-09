@@ -58,26 +58,31 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 30),
 
                 // Summary Box
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[50]?.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      const Text("📊 Weekly Summary",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87)),
-                      const SizedBox(height: 10),
-                      Text("No data yet. Start logging moods & habits!",
-                          style: TextStyle(color: Colors.blue[800])),
-                    ],
-                  ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/summary'); // use your actual route name
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[50]?.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
                 ),
+                child: Column(
+                  children: [
+                    const Text("📊 Weekly Summary",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87)),
+                    const SizedBox(height: 10),
+                    Text("Click to See",
+                        style: TextStyle(color: Colors.blueGrey)),
+                  ],
+                ),
+              ),
+            ),
 
                 const SizedBox(height: 30),
 

@@ -19,7 +19,8 @@ class _BreathingScreenState extends State<BreathingScreen> with SingleTickerProv
     _controller = AnimationController(
       duration: Duration(seconds: 4),
       vsync: this,
-    )..forward();
+    )
+      ..forward();
 
 
     _animation = Tween<double>(begin: 100, end: 200).animate(_controller);
@@ -32,13 +33,13 @@ class _BreathingScreenState extends State<BreathingScreen> with SingleTickerProv
       setState(() {
         if (_instruction == "Breathe In") {
           _instruction = "Hold...";
-          _controller.stop(); // Pause animation during Hold
+          _controller.stop();
         } else if (_instruction == "Hold...") {
           _instruction = "Breathe Out";
-          _controller.reverse(); // Resume animation
+          _controller.reverse();
         } else {
           _instruction = "Breathe In";
-          _controller.forward();// Resume animation in reverse
+          _controller.forward();
         }
       });
     });
@@ -55,33 +56,59 @@ class _BreathingScreenState extends State<BreathingScreen> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Guided Breathing")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return SizedBox(
-                  height: _animation.value,
-                  width: _animation.value,
-                  child: Image.asset(
-                    'assets/heart.png', // make sure this asset exists and is declared in pubspec.yaml
-                    fit: BoxFit.contain,
+      appBar: AppBar(title: Text("Guided Breathing"),
+      backgroundColor: Colors.black87,
+      foregroundColor:Colors.white),
+      body: Stack(
+        children: [
+          // 🔹 Background Image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg2.jpg"),
+                // Make sure this is correct
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // 🔹 Breathing content
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    return SizedBox(
+                      height: _animation.value,
+                      width: _animation.value,
+                      child: Image.asset(
+                        'assets/heart.png',
+                        // Make sure this exists and is declared
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  _instruction,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // For visibility over background
                   ),
-                );
-              },
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "Follow the animation to relax",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ],
             ),
-            const SizedBox(height: 40),
-            Text(
-              _instruction,
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Text("Follow the animation to relax"),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

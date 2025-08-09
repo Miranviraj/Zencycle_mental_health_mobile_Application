@@ -45,6 +45,8 @@ class MindTrackApp extends StatelessWidget {
         '/chatbot': (context) => ChatbotScreen(),
         '/breathing': (context) => BreathingScreen(),
         '/meditation': (context) => MeditationScreen(),
+
+
       }, // initial screen
     );
   }

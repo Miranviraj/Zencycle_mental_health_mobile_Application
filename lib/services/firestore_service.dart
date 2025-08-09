@@ -60,4 +60,28 @@ class FirestoreService {
         .orderBy('created_at', descending: true)
         .snapshots();
   }
+
+  Future<void> updateJournalEntry(String id, String newText) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('journal_entries')
+        .doc(id)
+        .update({'text': newText});
+  }
+
+  Future<void> deleteJournalEntry(String id) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('journal_entries')
+        .doc(id)
+        .delete();
+  }
 }
