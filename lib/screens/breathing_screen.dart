@@ -57,22 +57,22 @@ class _BreathingScreenState extends State<BreathingScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Guided Breathing"),
-      backgroundColor: Colors.black87,
+       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor:Colors.white),
       body: Stack(
         children: [
-          // 🔹 Background Image
+      
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/bg2.jpg"),
-                // Make sure this is correct
+                
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          // 🔹 Breathing content
+          
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +85,7 @@ class _BreathingScreenState extends State<BreathingScreen> with SingleTickerProv
                       width: _animation.value,
                       child: Image.asset(
                         'assets/heart.png',
-                        // Make sure this exists and is declared
+                      
                         fit: BoxFit.contain,
                       ),
                     );
@@ -97,7 +97,7 @@ class _BreathingScreenState extends State<BreathingScreen> with SingleTickerProv
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // For visibility over background
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20),

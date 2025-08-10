@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled13/screens/meditation.dart';
 import 'package:untitled13/screens/moodsscreen.dart';
+import 'package:untitled13/screens/splash.dart';
 import 'screens/habbitscreen.dart';
 import 'screens/homescreen.dart';
 import 'screens/journalscreen.dart';
@@ -30,10 +31,20 @@ class MindTrackApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'MindTrack',
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/home',
+      theme: ThemeData(primarySwatch: Colors.indigo,
+       colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 34, 32, 36), // Primary
+          primary: const Color.fromARGB(255, 23, 23, 23),   // Black
+          secondary: const Color.fromARGB(255, 30, 54, 80), // Dark Blue
+          tertiary: const Color.fromARGB(255, 255, 255, 255), // White
+        ),
+      
+      ),
+      home: SplashScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),

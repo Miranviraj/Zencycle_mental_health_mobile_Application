@@ -142,9 +142,9 @@ class HomeScreen extends StatelessWidget {
 
       // Floating button for chatbot
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         icon: Icon(Icons.chat),
-        label: Text("MindBot"),
+        label: Text("MindBot" ,style:TextStyle(color: Colors.white)),
         onPressed: () {
           Navigator.pushNamed(context, '/chatbot');
         },

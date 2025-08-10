@@ -26,7 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      // Save to Firestore
+     
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user!.uid)
@@ -40,7 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.toString()),
-        backgroundColor: Colors.red,
+       
       ));
     }
 
@@ -50,35 +50,62 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sign Up")),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: "Email"),
+      appBar: AppBar(title: Text("Sign Up"),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      foregroundColor: Colors.white,
+      centerTitle: true,),
+        body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/signup.jpg"), // Your background image
+            fit: BoxFit.cover, // Make image cover entire screen
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.5), // Transparent form background
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(labelText: "Email"),
+                    ),
+                    TextField(
+                      controller: passwordController,
+                      decoration: const InputDecoration(labelText: "Password"),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    isLoading
+                        ? const CircularProgressIndicator()
+                        : ElevatedButton(
+                            onPressed: handleSignup,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.secondary,
+                            ),
+                            child: const Text("Sign Up",
+                                style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Go back to login
+                      },
+                      child: const Text("Already have an account? Login"),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(labelText: "Password"),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-              onPressed: handleSignup,
-              child: Text("Sign Up"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Go back to login
-              },
-              child: Text("Already have an account? Login"),
-            ),
-          ],
+          ),
         ),
       ),
     );
