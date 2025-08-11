@@ -9,7 +9,17 @@ class MoodSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+
+    return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+            image: AssetImage("assets/habit.jpg"),
+            fit: BoxFit.cover, // cover whole area
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+    child:Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: Mood.values.map((mood) {
         return IconButton(
@@ -20,6 +30,8 @@ class MoodSelector extends StatelessWidget {
           onPressed: () => onMoodSelected(mood),
         );
       }).toList(),
+    ),
     );
+
   }
 }

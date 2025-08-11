@@ -62,8 +62,15 @@ class _MoodScreenState extends State<MoodScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("How are you feeling?")),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+            image: AssetImage("assets/habit.jpg"),
+            fit: BoxFit.cover, // cover whole area
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
