@@ -15,7 +15,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 2), () {
-      // Check if user is logged in
       if (FirebaseAuth.instance.currentUser == null) {
         Navigator.pushReplacementNamed(context, '/login');
       } else {
