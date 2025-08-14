@@ -5,17 +5,13 @@ import 'package:untitled13/screens/splash.dart';
 import 'screens/habbitscreen.dart';
 import 'screens/homescreen.dart';
 import 'screens/journalscreen.dart';
-import 'screens/main_screen.dart';
 import 'screens/summary.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/login.dart';
 import 'screens/signup.dart';
-import 'screens/moodsscreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/chatbot.dart';
 import 'screens/breathing_screen.dart';
-import 'screens/meditation.dart';
 
 
 void main() async {

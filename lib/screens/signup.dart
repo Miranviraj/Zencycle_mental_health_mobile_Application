@@ -77,6 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     TextField(
                       controller: emailController,
                       decoration: const InputDecoration(labelText: "Email"),
+                    keyboardType: TextInputType.numberWithOptions(),
                     ),
                     TextField(
                       controller: passwordController,
